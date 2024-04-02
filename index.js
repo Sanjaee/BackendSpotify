@@ -28,51 +28,25 @@ mongoose
 
 //scema
 const UserSchema = new mongoose.Schema({
-  username: String,
-  name: String,
-  display_name: String,
-  country: String,
-  birthdate: String,
-  followers: Number,
-  images: [
+  title: String,
+  desc: String,
+  image: String,
+  releaseDate: String,
+  genre: String,
+  songs: [
     {
-      url: String,
-      width: Number,
-      height: Number,
+      image: String,
+      title: String,
+      artist: String,
+      duration: String,
     },
   ],
-  premium: Boolean,
-  product: String,
-  playlists: [
-    {
-      id: String,
-      name: String,
-      description: String,
-      public: Boolean,
-      collaborative: Boolean,
-      owner: {
-        id: String,
-        display_name: String,
-      },
-      tracks: [
-        {
-          id: String,
-          title: String,
-          artist: String,
-          album: String,
-          duration_ms: Number,
-          explicit: Boolean,
-          popularity: Number,
-          preview_url: String,
-        },
-      ],
-    },
-  ],
+  album: String,
 });
 
 const User = mongoose.model("User", UserSchema);
 
-app.get("/api/v1/users", async (req, res) => {
+app.get("/api/v1/album", async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
@@ -81,7 +55,7 @@ app.get("/api/v1/users", async (req, res) => {
   }
 });
 
-app.get("/api/v1/users/:id", async (req, res) => {
+app.get("/api/v1/album/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -93,7 +67,7 @@ app.get("/api/v1/users/:id", async (req, res) => {
   }
 });
 
-app.post("/api/v1/addUser", async (req, res) => {
+app.post("/api/v1/addAlbum", async (req, res) => {
   try {
     const newUser = new User(req.body);
     const savedUser = await newUser.save();
@@ -103,7 +77,7 @@ app.post("/api/v1/addUser", async (req, res) => {
   }
 });
 
-app.put("/api/users/:id", async (req, res) => {
+app.put("/api/album/:id", async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -117,7 +91,7 @@ app.put("/api/users/:id", async (req, res) => {
   }
 });
 
-app.delete("/api/v1/deletUsers/:id", async (req, res) => {
+app.delete("/api/v1/deleteAlbum/:id", async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
     if (!deletedUser) {
